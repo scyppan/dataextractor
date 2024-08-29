@@ -1,0 +1,80 @@
+Hair Code :
+
+2
+16
+17
+18 -> Higher Frequency
+24
+28
+54
+57
+58
+60
+63
+64
+65 -> Higher Frequency
+77 -> Higher Frequency
+82
+85
+93 -> Higher Frequency
+115
+123
+131
+133
+145
+169
+179
+184 -> Higher Frequency
+220
+283
+284
+298
+554
+902
+
+Black Players Only (to be used for black players with the other hairstyles) :
+4
+5
+27
+71
+110
+664
+
+Beard Type :
+
+0
+3
+5
+8
+9
+11
+12
+14
+15
+17
+19
+20
+
+Hair Colors (I'll tell you all hair colors and you decide which ones are most suitable for which country) :
+0 -> Black
+1 -> Blonde
+2 -> Ash Blonde
+3 -> Dark Brown
+4 -> Platinum Blonde
+5 -> Light Brown
+6 -> Brown
+7 -> Red
+8 -> White
+9 -> Gray
+10 -> Green
+11 -> Electric Blue
+
+Facial Hair Colors (I'll tell you all hair colors and you decide which ones are most suitable for which country) :
+0 -> Black
+1 -> Blonde
+2 -> Dark Brown
+3 -> Light Brown
+4 -> Red
+5 -> Modern Blonde
+6 -> Modern Brown
+7 -> Modern Red

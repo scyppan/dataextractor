@@ -1,0 +1,47 @@
+#playerInfoPanel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    z-index: 1001;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    overflow-x: auto;
+}
+
+#playerDataTable {
+    table-layout: fixed; /* This helps enforce uniform column sizing */
+    width: 100%; /* Ensures the table stretches to the width of its container */
+    border-collapse: collapse; /* Removes space between borders */
+
+}
+
+#playerDataTable th, #playerDataTable td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+    vertical-align: top;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+
+#playerDataTable tr:nth-child(odd) {
+    background-color: #b6b3be;
+    color: #423f4b;
+    font-weight: bold;
+}
+
+#playerDataTable tr:nth-child(even) {
+    background-color: #423f4b;
+    color: #b6b3be;
+    font-weight: bold;
+}
+
+#playerDataTable tr:hover {
+    background-color: #b6b398;
+    color: #58574b;
+}
