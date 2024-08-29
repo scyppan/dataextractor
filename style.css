@@ -1,47 +1,51 @@
-#playerInfoPanel {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: white;
-    z-index: 1001;
-    padding: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    overflow-x: auto;
+#playerInfoPanel{
+    margin: 12px;
+    
 }
 
-#playerDataTable {
-    table-layout: fixed; /* This helps enforce uniform column sizing */
-    width: 100%; /* Ensures the table stretches to the width of its container */
-    border-collapse: collapse; /* Removes space between borders */
-
+#playerDataTable input, #playerDataTable select {
+    width: 100%; /* Input/select elements take full width */
+    height: 100%; /* Input/select elements take full height */
+    padding: 0; /* Remove default padding */
+    border: none; /* Remove input/select borders */
+    text-align: center; /* Center text inside input/select elements */
+    font-family: Arial, sans-serif; /* Match existing font family */
+    box-sizing: border-box; /* Ensure padding is included in width/height */
 }
 
-#playerDataTable th, #playerDataTable td {
-    border: 1px solid black;
-    padding: 8px;
-    text-align: center;
-    vertical-align: top;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    box-sizing: border-box;
+#playerDataTable tr:nth-child(odd) input, #playerDataTable tr:nth-child(odd) select {
+    background-color:  #534d63; /* Light background color for odd rows */
+    color:  #c1bccf; /* Dark text color for contrast */
+    font-weight: bold;
 }
 
+#playerDataTable tr:nth-child(even) input, #playerDataTable tr:nth-child(even) select {
+    background-color: #423f4b; /* Dark background color for even rows */
+    color: #b6b3be; /* Light text color for contrast */
+    font-weight: bold;
+}
 
+/* Keep the row background colors the same */
 #playerDataTable tr:nth-child(odd) {
-    background-color: #b6b3be;
-    color: #423f4b;
+    background-color:  #534d63; /* Light background color for odd rows */
+    color:  #c1bccf; /* Dark text color for contrast */
     font-weight: bold;
 }
 
 #playerDataTable tr:nth-child(even) {
-    background-color: #423f4b;
-    color: #b6b3be;
+    background-color: #423f4b; /* Dark background color for even rows */
+    color: #b6b3be; /* Light text color for contrast */
     font-weight: bold;
 }
 
 #playerDataTable tr:hover {
-    background-color: #b6b398;
-    color: #58574b;
+    background-color: #b6b398; /* Highlight row on hover */
+    color: #58574b; /* Change text color on hover for better contrast */
+}
+
+#playerDataTable {
+    border-collapse: collapse; /* Merge borders */
+    width: 100%; /* Table occupies full width of its container */
+    table-layout: fixed; /* Uniform column widths */
+    box-sizing: border-box; /* Ensure padding is included in width/height */
 }
