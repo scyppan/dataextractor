@@ -1,6 +1,6 @@
 function setupForPlayer(){
     console.clear();
-    alert("settingup for player");
+    alert("This feature isn't complete. You can download a json file, but not complete player data");
 
 
     (function() {
