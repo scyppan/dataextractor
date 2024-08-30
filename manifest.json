@@ -3,7 +3,11 @@
   "name": "Player Data Extractor",
   "description": "Extracts player info from a web table and downloads it as JSON.",
   "version": "1.0",
-  "permissions": ["activeTab", "storage", "downloads"],
+  "permissions": [
+    "activeTab",
+    "storage",
+    "downloads"
+  ],
   "content_scripts": [
     {
       "matches": [
@@ -12,29 +16,23 @@
         "https://www.worldfootball.net/player_summary/*"
       ],
       "js": [
+        "resources.js",
         "dynamicstyling.js",
         "scyppantools/scyppan.js",
-        "smtools/smtools.js",
-        "smtools/resources.js",
-        "smtools/appearance.js",
-        "smtools/attributes.js",
-        "smtools/demographics.js",
-        "rostermaker/tools.js",
-        "rostermaker/gui.js",
-        "rostermaker/rm24.js",
         "extractor/extractor.js",
         "extractor/downloader.js",
         "extractor/outputter.js",
         "extractor/processor.js",
         "extractor/teams.js",
         "extractor/players.js",
+        "extractor/getplayersonteam.js",
         "extractor/main.js"
       ],
       "type": "module",
       "css": [
         "style.css"
       ],
-       "run_at": "document_end"
+      "run_at": "document_end"
     }
   ],
   "action": {

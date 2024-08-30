@@ -14,10 +14,17 @@ function setupForTeam() {
     let currentdefaultpos = "GK"; 
 
     for (let i = 0; i < tbodyrows.length; i++) {
+
+        
         if (isHeaderRow(tbodyrows[i])) { 
-            currentdefaultpos = processPosition(tbodyrows[i], currentdefaultpos);
+            currentdefaultpos = processdefaultpos(tbodyrows[i].children[0].textContent);
         } else {
-            processPlayerRow(tbodyrows[i], currentdefaultpos, teamnation);
+            if(currentdefaultpos=='stop'){
+                break;
+            }else{
+                processPlayerRow(tbodyrows[i], currentdefaultpos, teamnation);
+            }
+            
         }
     }
 
@@ -40,7 +47,7 @@ function isHeaderRow(row) {
     return row.children.length === 1;
 }
 
-function processPosition(row, currentdefaultpos) {
+function processPosition(row) {
     let procdefpos = processdefaultpos(row.children[0].textContent);
     return procdefpos === "stop" ? currentdefaultpos : procdefpos;
 }
@@ -53,51 +60,6 @@ function processdefaultpos(val) {
         case "Forward": return "ST";
         default: return "stop";
     }
-}
-
-function createPlayerInfoPanel() {
-    const panel = document.createElement('div');
-    panel.id = "playerInfoPanel";
-
-    const toggleButton = document.createElement('button');
-    toggleButton.textContent = '-';
-    toggleButton.onclick = function() {
-        const table = document.getElementById('playerDataTable');
-        if (table.style.display === 'none') {
-            table.style.display = 'table';
-            toggleButton.textContent = '-';
-        } else {
-            table.style.display = 'none';
-            toggleButton.textContent = '+';
-        }
-    };
-    toggleButton.style.cssText = 'float: right;';
-    panel.appendChild(toggleButton);
-
-    const table = document.createElement('table');
-    table.id = 'playerDataTable';
-    table.style.width = '100%';
-    table.border = '1';
-
-    const headers = ['nat', 'given', 'sur', 'jersey', 'nick', 'transferval', 'ovr', 'pos1', 'pos2', 'pos3', 'pos4', 'foot', 'weakfoot', 'birthdate', 'height', 'weight', 'attwrkrate', 'defwrkrate', 'skillmoves', 'playerid'];
-    const thead = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-    headers.forEach(headerText => {
-        const header = document.createElement('th');
-        header.textContent = headerText;
-        headerRow.appendChild(header);
-    });
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-    table.appendChild(tbody);
-
-    panel.appendChild(table);
-    document.body.insertBefore(panel, document.body.firstChild);
-
-    populatePlayerData();
-    adjustColumnWidths(table);
 }
 
 function createTextCell(value) {
@@ -175,71 +137,49 @@ function getWeakFootOptions() {
 
 function processPlayerRow(row, currentdefaultpos, teamnation) {
 
-    console.log(teamnation);
-    // Normalize the teamnation to match with the predefined nations
-    //const normalizedTeamNation = findMatchingNation(teamnation);
-
     let playerName= processPlayerName(row.children[2].children[0].textContent);
-
+    
     let player = {
         url: row.children[2].children[0].href,
         given: playerName.given,
         sur: playerName.sur,
         jersey: playerName.jersey,
         nick: playerName.nick,
-        nationality: findMatchingNation(row.children[4].textContent, teamnation) || normalizedTeamNation,
+        nationality: "not found",
         dob: row.children[5].textContent,
-        position1: currentdefaultpos
+        position1: currentdefaultpos,
+        
     };
 
+    processNationality(row.children[4].textContent, teamnation, player);
+
+    if(currentdefaultpos=='stop' && currentdefaultpos=='none'){
+        player.position1='CM';
+        player.position1placeholder='default';
+    }else{
+        player.position1placeholder='teamlevel';
+    }
+    
     teamplayers.push(player);
 }
 
-function findMatchingNation(inputNation, teamnation) {
-    //console.log("inputnation", inputNation);
-
-    const nationList = nations();
-    let natname = 'Côte d’Ivoire'; // Default value
-
-    // Normalize the input and teamnation for comparison
-    const normalizedInput = inputNation.toLowerCase().trim();
-    const normalizedTeamnation = teamnation.toLowerCase().trim();
-
-    // Check if inputNation exactly matches or contains any nation in allNations
-    const matchedNation = nationList.find(nationObj => 
-        nationObj.nation.toLowerCase() === normalizedInput || 
-        normalizedInput.includes(nationObj.nation.toLowerCase()) ||
-        nationObj.nation.toLowerCase().includes(normalizedInput)
-    );
-
-    if (matchedNation) {
-        //console.log("I matched the inputnation");
-        natname = matchedNation.nation;
-    } else {
-        // If no match, then check teamnation in the same way
-        const matchedTeamNation = nationList.find(nationObj => 
-            nationObj.nation.toLowerCase() === normalizedTeamnation || 
-            normalizedTeamnation.includes(nationObj.nation.toLowerCase()) ||
-            nationObj.nation.toLowerCase().includes(normalizedTeamnation)
-        );
-
-        if (matchedTeamNation) {
-            //console.log("I matched the teamnation");
-            natname = matchedTeamNation.nation;
-        } else {
-            //console.log("no match");
+function processNationality(txt, teamnation, player){
+    
+    let nationality=findMatchingNation(txt);
+    
+    if(nationality=='not found'){
+        let matchingteamnation=findMatchingNation(teamnation);
+        if(matchingteamnation=='not found'){
+            player.nationality='Côte d’Ivoire';
+            player.placeholdernationality='default';
+        }else{
+            player.nationality=matchingteamnation;
+            player.placeholdernationality='teamnation';
         }
+    }else{
+        player.nationality=nationality;
+        player.placeholdernationality='none';
     }
-
-    return natname;
-}
-
-function getFilteredNationOptions() {
-    const excludeNations = ["ExcludeNation1", "ExcludeNation2", "ExcludeNation3"]; // Replace with actual names
-    const nationList = nations();
-    return nationList
-        .filter(nationObj => !excludeNations.includes(nationObj.nation))
-        .map(nationObj => nationObj.nation);
 }
 
 function processPlayerName(playername){
@@ -284,6 +224,49 @@ function processPlayerName(playername){
     }
 }
 
+function createPlayerInfoPanel() {
+    const panel = document.createElement('div');
+    panel.id = "playerInfoPanel";
+
+    const toggleButton = document.createElement('button');
+    toggleButton.textContent = '-';
+    toggleButton.onclick = function() {
+        const table = document.getElementById('playerDataTable');
+        if (table.style.display === 'none') {
+            table.style.display = 'table';
+            toggleButton.textContent = '-';
+        } else {
+            table.style.display = 'none';
+            toggleButton.textContent = '+';
+        }
+    };
+    panel.appendChild(toggleButton);
+
+    const table = document.createElement('table');
+    table.id = 'playerDataTable';
+    table.style.width = '100%';
+    table.border = '1';
+
+    const headers = ['nat', 'given', 'sur', 'jersey', 'nick', 'transferval', 'ovr', 'pos1', 'pos2', 'pos3', 'pos4', 'foot', 'weakfoot', 'birthdate', 'height', 'weight', 'attwrkrate', 'defwrkrate', 'skillmoves', 'playerid'];
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    headers.forEach(headerText => {
+        const header = document.createElement('th');
+        header.textContent = headerText;
+        headerRow.appendChild(header);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+
+    panel.appendChild(table);
+    document.body.insertBefore(panel, document.body.firstChild);
+
+    populatePlayerData();
+    adjustColumnWidths(table);
+}
 
 function populatePlayerData() {
     const tbody = document.getElementById('playerDataTable').getElementsByTagName('tbody')[0];
@@ -317,3 +300,113 @@ function populatePlayerData() {
         tbody.appendChild(row);
     });
 }
+
+function createPlayerInfoPanel() {
+    const panel = document.createElement('div');
+    panel.id = "playerInfoPanel";
+
+    // Create a container for all options
+    const optionsContainer = document.createElement('div');
+    
+    optionsContainer.classList.add('paneloptionscontainer');
+
+    // Create the toggle button (now on the left)
+    const toggleButton = document.createElement('button');
+    toggleButton.textContent = '-';
+    toggleButton.onclick = function() {
+        const table = document.getElementById('playerDataTable');
+        if (table.style.display === 'none') {
+            table.style.display = 'table';
+            toggleButton.textContent = '-';
+        } else {
+            table.style.display = 'none';
+            toggleButton.textContent = '+';
+        }
+    };
+    toggleButton.classList.add('infopaneloption');
+    optionsContainer.appendChild(toggleButton);
+
+    // Add option to fetch player data
+    const fetchPlayerDataButton = document.createElement('button');
+    fetchPlayerDataButton.textContent = 'Fetch Player Data';
+    fetchPlayerDataButton.onclick = function() {
+        console.log("Fetching Player Data...");
+        fetchplayers();
+    };
+    fetchPlayerDataButton.classList.add('infopaneloption');
+    optionsContainer.appendChild(fetchPlayerDataButton);
+
+    // Add option to download unicode.txt
+    const downloadUnicodeButton = document.createElement('button');
+    downloadUnicodeButton.textContent = 'Download Unicode.txt';
+    downloadUnicodeButton.onclick = function() {
+        downloadTableData();
+    };
+    downloadUnicodeButton.classList.add('infopaneloption');
+    optionsContainer.appendChild(downloadUnicodeButton);
+
+    // Append options container to panel
+    panel.appendChild(optionsContainer);
+
+    // Create the table to display player data
+    const table = document.createElement('table');
+    table.id = 'playerDataTable';
+    table.style.width = '100%';
+    table.border = '1';
+
+    // Create and append the table header
+    const headers = ['nat', 'given', 'sur', 'jersey', 'nick', 'transferval', 'ovr', 'pos1', 'pos2', 'pos3', 'pos4', 'foot', 'weakfoot', 'birthdate', 'height', 'weight', 'attwrkrate', 'defwrkrate', 'skillmoves', 'playerid'];
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    headers.forEach(headerText => {
+        const header = document.createElement('th');
+        header.textContent = headerText;
+        headerRow.appendChild(header);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Create the tbody element
+    const tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+
+    // Append the table to the panel
+    panel.appendChild(table);
+
+    // Append the panel to the body
+    document.body.insertBefore(panel, document.body.firstChild);
+
+    // Function to populate table with player data
+    populatePlayerData();
+    adjustColumnWidths(table);
+}
+
+function findMatchingNation(inputNation) {
+
+    const nationList = nations;
+    let natname = 'not found'; // Default value
+
+    // Normalize the input and teamnation for comparison
+    const normalizedInput = inputNation.toLowerCase().trim();
+
+    // Check if inputNation exactly matches or contains any nation in allNations
+    const matchedNation = nationList.find(nationObj => 
+        nationObj.nation.toLowerCase() === normalizedInput || 
+        normalizedInput.includes(nationObj.nation.toLowerCase()) ||
+        nationObj.nation.toLowerCase().includes(normalizedInput)
+    );
+
+    if (matchedNation) {
+        natname = matchedNation.nation;
+    }
+    return natname;
+}
+
+function getFilteredNationOptions() {
+    const excludeNations = ["ExcludeNation1", "ExcludeNation2", "ExcludeNation3"]; // Replace with actual names
+    const nationList = nations;
+    return nationList
+        .filter(nationObj => !excludeNations.includes(nationObj.nation))
+        .map(nationObj => nationObj.nation);
+}
+

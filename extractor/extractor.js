@@ -29,11 +29,9 @@ function extractTableData() {
         dataObj[key] = value;
     });
 
-    console.clear();
     player=dataObj;
-    console.log("IM HERE!", player);
-    processPlayer();
-
-    console.log(defaultplayernamestable24,"defaultplayernamestable24");
+    return player;
+    
+    //processPlayer();
     //downloadDataAsJson(JSON.stringify(dataObj), `${playerName.replace(/[\s\W]+/g, '_')}.json`);
 }
