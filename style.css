@@ -1,0 +1,94 @@
+#playerInfoPanel{
+    width: calc(100% - 75px);
+    margin: 12px;
+    margin-right: 20px;
+    top:82px;
+    position: absolute;
+    z-index: 1001;
+}
+
+#playerDataTable input, #playerDataTable select {
+    width: 100%; /* Input/select elements take full width */
+    height: 100%; /* Input/select elements take full height */
+    padding: 0; /* Remove default padding */
+    border: none; /* Remove input/select borders */
+    text-align: center; /* Center text inside input/select elements */
+    font-family: Arial, sans-serif; /* Match existing font family */
+    box-sizing: border-box; /* Ensure padding is included in width/height */
+}
+
+#playerDataTable tr:nth-child(odd) input, #playerDataTable tr:nth-child(odd) select {
+    background-color:  #534d63; /* Light background color for odd rows */
+    color:  #c1bccf; /* Dark text color for contrast */
+    font-weight: bold;
+}
+
+#playerDataTable tr:nth-child(even) input, #playerDataTable tr:nth-child(even) select {
+    background-color: #423f4b; /* Dark background color for even rows */
+    color: #b6b3be; /* Light text color for contrast */
+    font-weight: bold;
+}
+
+/* Keep the row background colors the same */
+#playerDataTable tr:nth-child(odd) {
+    background-color:  #534d63; /* Light background color for odd rows */
+    color:  #c1bccf; /* Dark text color for contrast */
+    font-weight: bold;
+}
+
+#playerDataTable tr:nth-child(even) {
+    background-color: #423f4b; /* Dark background color for even rows */
+    color: #b6b3be; /* Light text color for contrast */
+    font-weight: bold;
+}
+
+#playerDataTable tr:hover {
+    background-color: #b6b398; /* Highlight row on hover */
+    color: #58574b; /* Change text color on hover for better contrast */
+}
+
+#playerDataTable {
+    border-collapse: collapse; /* Merge borders */
+    width: 100%; /* Table occupies full width of its container */
+    table-layout: fixed; /* Uniform column widths */
+    box-sizing: border-box; /* Ensure padding is included in width/height */
+}
+
+.infopaneloption{
+    background-color: #beb1bd;
+    color: #423f4b;
+    font-weight: bold;
+    border-radius: 7px;
+}
+
+.infopaneloption:hover{
+    background-color: #b6ad78;
+    color: #4b4a3f;
+    font-weight: bold;
+    border-radius: 7px;
+}
+
+.paneloptionscontainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start; /* Align items to the left */
+    gap: 7px;
+    margin-bottom: 3px;
+}
+
+.myliliframe{
+    opacity: 40%;
+    display: flex;
+    width: 85%;
+    height: 350px;
+    background-color: #b6ad78;
+}
+
+.infopanelfetching{
+    background-color: rgba(35,35,35,.8);
+    color: #b6b398;
+    font-weight: bold;
+    border-radius: 12px;
+    width: 35% !important;
+    padding: 20px;
+}

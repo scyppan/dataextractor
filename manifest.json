@@ -1,26 +1,62 @@
 {
-    "manifest_version": 3,
-    "name": "Player Data Extractor",
-    "description": "Extracts player info from a web table and downloads it as JSON.",
-    "version": "1.0",
-    "permissions": ["activeTab", "storage", "downloads"],
-    "content_scripts": [
-      {
-        "matches": ["https://www.worldfootball.net/player_summary/*"],
-        "js": ["content.js"]
-      }
-    ],
-    "action": {
-      "default_icon": {
-        "16": "icon.png",
-        "48": "icon.png",
-        "128": "icon.png"
-      }
-    },
-    "icons": {
-      "16": "icon.png",
-        "48": "icon.png",
-        "128": "icon.png"
+  "manifest_version": 3,
+  "name": "Player Data Extractor",
+  "description": "Extracts player info from a web table and downloads it as JSON.",
+  "version": "1.0",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "downloads"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.worldfootball.net/teams/*",
+        "https://www.worldfootball.net/player/*",
+        "https://www.worldfootball.net/player_summary/*"
+      ],
+      "js": [
+        "resources.js",
+        "dynamicstyling.js",
+        "scyppantools/scyppan.js",
+        "extractor/extractor.js",
+        "extractor/downloader.js",
+        "extractor/outputter.js",
+        "extractor/processor.js",
+        "extractor/teams.js",
+        "extractor/players.js",
+        "extractor/getplayersonteam.js",
+        "extractor/main.js"
+      ],
+      "type": "module",
+      "css": [
+        "style.css"
+      ],
+      "run_at": "document_end"
     }
-  }
-  
+  ],
+  "action": {
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "scyppantools/Hair Codes.txt",
+        "rostermaker/eafc24defaultclplayernames.txt",
+        "rostermaker/eafc24defaultclplayermames.txt",
+        "rostermaker/eafc24defaultplayernames.txt",
+        "rostermaker/eafc24defaultplayers.txt"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
