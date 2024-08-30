@@ -92,3 +92,9 @@
     width: 35% !important;
     padding: 20px;
 }
+
+.tblselect {
+    background-color: #423f4b;
+    font-weight: bold;
+    color:  #c1bccf !important;
+}

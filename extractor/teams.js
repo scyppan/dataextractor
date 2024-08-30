@@ -85,10 +85,12 @@ function createNumberCell(value, min, max) {
 function createSelectCell(selectedValue, options) {
     const cell = document.createElement('td');
     const select = document.createElement('select');
+    
 
     options.forEach(option => {
         const opt = document.createElement('option');
         opt.value = option;
+        opt.classList.add('tblselect');
         opt.textContent = option;
         if (option === selectedValue) {
             opt.selected = true;
