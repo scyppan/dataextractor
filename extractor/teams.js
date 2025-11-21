@@ -2,7 +2,7 @@ let teamplayers = [];
 
 function setupForTeam() {
     let tables = document.getElementsByClassName('standard_tabelle');
-    let playertable = tables[0];
+    let playertable = tables[0].children[0].children;
     let tbody = playertable.children[0];
     let tbodyrows = tbody.children;
 
